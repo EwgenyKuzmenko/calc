@@ -1,25 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+/*jshint esversion: 6 */
+/*jshint -W033 */
+/*jshint -W061 */
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from "react"
+import store from "./sore";
+import './App.css'
+
+class App extends React.Component {
+
+    constructor() {
+        super()
+        this.state = {
+            out: "0"
+        }
+        this.refOutput = React.createRef()
+
+    }
+
+    tapeNumber(num) {
+        let currentValue = num;
+        let output = this.refOutput.current;
+
+        this.setState({
+            out: currentValue
+        })
+        if (output.value === '0') {
+            output.value = ''
+        }
+        if (num === "=") {
+            alert(output.value)
+            output.value = eval(output.value)
+        } else {
+            output.value = output.value + currentValue
+        }
+
+    }
+
+    tape(operation) {
+        let output = this.refOutput.current;
+
+    }
+
+  render() {
+    return(
+        <div className="container">
+            <div><p>Enter SUM IN USD</p></div>
+                <div className="output">
+                    <input ref={this.refOutput} type="text" defaultValue={this.state.out}/>
+                </div>
+            {/*<div className="operations">*/}
+            {/*  {store.operations.map(item => <button*/}
+            {/*  onClick={(this.tape(item.val))}>{item.val}*/}
+            {/*  </button>)}*/}
+            {/*</div>*/}
+            <div className="buttons">
+              {store.buttons.map(item => <button
+              onClick={() => {
+                  this.tapeNumber(item.val)
+              }}>{item.val}
+              </button>)}
+            </div>
+
+        </div>
+    )
+
+  }
 }
 
-export default App;
+export default App
